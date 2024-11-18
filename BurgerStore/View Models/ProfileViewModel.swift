@@ -21,7 +21,7 @@ class ProfileViewModel: ObservableObject {
         DataBaseService.shared.setUser(user: self.profile) { result in
             switch result {
             case .success(let user):
-                print(user.name)
+                print(user.fullName)
             case .failure(let error):
                 print(error.localizedDescription)
             }

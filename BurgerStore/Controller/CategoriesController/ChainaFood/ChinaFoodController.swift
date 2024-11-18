@@ -18,16 +18,12 @@ class ChinaFoodController: BaseListController ,UICollectionViewDelegateFlowLayou
         collectionView.backgroundColor = UIColor(red: 0.10, green: 0.11, blue: 0.12, alpha: 1.00)
         collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "Cell")
         
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
         
         Task {
             await fetchAllProductCocktails()
         }
     }
-    
+
     private func fetchAllProductCocktails() async {
         do {
             product = try await BurgerNetWork.shared.fetchAllChinaFood()
@@ -52,7 +48,7 @@ class ChinaFoodController: BaseListController ,UICollectionViewDelegateFlowLayou
     func collectionView(_ collectionView: UICollectionView, 
                         layout collectionViewLayout: UICollectionViewLayout,
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
-        .init(width: view.frame.width, height: 340)
+        .init(width: view.frame.width, height: 320)
     }
     
     func collectionView(_ collectionView: UICollectionView,

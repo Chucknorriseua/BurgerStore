@@ -6,41 +6,42 @@
 //
 
 import SwiftUI
-
+import FirebaseFirestore
 
 //MARK: Table View info
+@available(iOS 16.0, *)
 struct ShopCardView: View {
     
-    @StateObject var viewModel: CartManager
-
+    @StateObject var viewModel: ShoppViewModel
+    
     var body: some View {
-     VStack {
-            
-    ScrollView {
-        //           MARK: Burger Cell
-        if !animation {
-            
-            LazyVStack {
-                ForEach(viewModel.shopViewModel, id:\.self) { item in
-                    
-                    ShopProductViewCell(shopModel: item, viewModel: ShoppViewModel.shared)
-                }
-                //            MARK: China Food Cell
-                ForEach(viewModel.chinaViewModel, id:\.self) { item in
-                    ShopProductChinaCell(viewModel: ShoppViewModel.shared, chinaModel: item)
-                }
-            }.animation(.easeOut(duration: 5), value: animation)
-        }
-         
-        
         VStack {
-            //        MARK: Recommend Burgers
-            RecomBurger()
-            //        MARK:   Recommend China Food
-            RecomChina()
-                .padding(.top, 60)
-            
-        }
+
+            ScrollView {
+                //           MARK: Burger Cell
+                LazyVStack {
+                    ForEach($viewModel.shopViewModel.indices, id:\.self) { index in
+                        
+                        ShopProductViewCell(viewModel: ShoppViewModel.shared, shopModel: $viewModel.shopViewModel[index])
+                    }
+                }
+                
+                LazyVStack(alignment: .center) {
+
+                    ForEach($viewModel.chinaViewModel.indices, id:\.self) { item in
+
+                        ShopProductChinaCell(viewModel: ShoppViewModel.shared, chinaModel: $viewModel.chinaViewModel[item])
+                    }
+                }
+                
+                VStack {
+                    //        MARK: Recommend Burgers
+                    RecomBurger()
+                    //        MARK:   Recommend China Food
+                    RecomChina()
+                        .padding(.top, 60)
+                    
+                }.background(Color(red: 0.10, green: 0.11, blue: 0.12))
                 
             }
             .background(Color(red: 0.10, green: 0.11, blue: 0.12))
@@ -48,6 +49,7 @@ struct ShopCardView: View {
             .navigationBarHidden(true)
             
             VStack {
+          
                 BuyButtonView(viewModel: ShoppViewModel.shared)
             }.padding(.bottom, 15)
             
@@ -55,7 +57,7 @@ struct ShopCardView: View {
         
     }
 }
-
-#Preview {
-    ShopCardView(viewModel: CartManager.shared)
-}
+@available(iOS 16.0, *)
+#Preview(body: {
+    ShopCardView(viewModel: ShoppViewModel.shared)
+})

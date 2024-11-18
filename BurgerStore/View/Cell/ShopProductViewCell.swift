@@ -6,8 +6,15 @@
 //
 
 import SwiftUI
+import SDWebImageSwiftUI
 
 struct ShopProductViewCell: View {
+    
+    
+    @StateObject var viewModel: ShoppViewModel
+    @Binding var shopModel: ShopModel
+    
+    
     var body: some View {
         ZStack {
             VStack {
@@ -22,10 +29,10 @@ struct ShopProductViewCell: View {
                                     .resizable()
                                     .scaledToFill()
                                     .clipShape(.rect(cornerRadius: 12))
-                                    .frame(width: 60, height: 60)
+                                    .frame(width: 75, height: 75)
                                 
                             } else {
-                                Image("")
+                                EmptyView()
                                 
                             }
                         }
@@ -55,41 +62,33 @@ struct ShopProductViewCell: View {
                     HStack(spacing: 4) {
                         
                         Button(action: {
-                            
-                            shopModel.count -= 1
                             viewModel.minusTotal(shopModel: shopModel)
                             
                         }, label: {
                             Image(systemName: "minus.square.fill")
                                 .font(.system(size: 26))
-                                .foregroundStyle(Color.white)
-                        })
+                                .foregroundStyle(viewModel.changeColorMinus(value: shopModel.count))
+                        }).disabled(shopModel.count == 1)
                         
                         
                         
                         Button(action: {
-                            
-                            shopModel.count += 1
                             viewModel.plusTotal(shopModel: shopModel)
                             
                         }, label: {
                             Image(systemName: "plus.square.fill")
                                 .font(.system(size: 26))
-                                .foregroundStyle(Color.white)
-                        })
+                                .foregroundStyle(viewModel.changeColorPlus(value: shopModel.count))
+                        }).disabled(shopModel.count >= 10)
                         
                         HStack {
                             Text("\(shopModel.count)")
                                 .font(.system(size: 16, weight: .heavy))
                                 .foregroundStyle(Color(red: 0.87, green: 0.83, blue: 0.78))
                             
-                        }.onChange(of: shopModel.count, perform: { newValue in
-                            shopModel.count = min(max(newValue, 1), 10)
-                            
-                        })
-                        
+                        }
                     }.padding(.top, 80)
-                     .padding(.trailing, 20)
+                        .padding(.trailing, 20)
                 }
             }
             
@@ -107,8 +106,4 @@ struct ShopProductViewCell: View {
             }.frame(maxWidth: .infinity, maxHeight: 120, alignment: .topTrailing)
         }
     }
-}
-
-#Preview {
-    ShopProductViewCell()
 }

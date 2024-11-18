@@ -13,7 +13,7 @@ class HorizontalSnappingController: UICollectionViewController {
         let layout = SnappitColletion()
         layout.scrollDirection = .horizontal
         super.init(collectionViewLayout: layout)
-//        self.collectionView.isScrollEnabled = true
+        self.collectionView.isScrollEnabled = false
     }
     
     required init?(coder: NSCoder) {

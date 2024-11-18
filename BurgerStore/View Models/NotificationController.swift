@@ -15,7 +15,7 @@ class NotificationController: NotificationCenter {
     let notificationCenter = UNUserNotificationCenter.current()
     
 
-    func notify(title: String, subTitle: String)  {
+    func notify(title: String, subTitle: String, timeInterval: Int)  {
         
         let content = UNMutableNotificationContent()
         content.title = title
@@ -34,7 +34,7 @@ class NotificationController: NotificationCenter {
             print("Error load image from bundle: ", error.localizedDescription)
         }
         
-        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 5, repeats: false)
+        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: TimeInterval(timeInterval), repeats: false)
         
         let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: trigger)
         UNUserNotificationCenter.current().add(request)

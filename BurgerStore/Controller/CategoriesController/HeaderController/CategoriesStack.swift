@@ -19,14 +19,6 @@ class CategoriesStack: UIStackView {
         return button
     }
     
-    let imageTest: UIImageView = {
-        let image = UIImageView(image: UIImage(named: "china1"))
-        image.constrainHeight(constant: 20)
-        image.constrainWidth(constant: 20)
-        return image
-    }()
-
-    
     let pizzaButton = CreateButton(image: UIImageView(image: UIImage(named: "pizza1")))
     let saladsButton = CreateButton(image: UIImageView(image: UIImage(named: "salad1")))
     let cocktailsButton = CreateButton(image: UIImageView(image: UIImage(named: "china1")))

@@ -7,7 +7,8 @@
 
 import UIKit
 
-class BurgerNetWork {
+@MainActor
+class BurgerNetWork: ObservableObject {
     
     enum DataError: Error {
         case invalidData
@@ -19,9 +20,10 @@ class BurgerNetWork {
      init() {}
     
     let urlString = "https://burgers-hub.p.rapidapi.com/burgers"
+    let urlChinaFood = "https://chinese-food-db.p.rapidapi.com/"
     
   
-    func fetchData(completion: @escaping (Result<[Element], Error>) -> Void) {
+    func fetchData(completion: @escaping (Result<[BurgerModel], Error>) -> Void) {
         
         guard let url = URL(string: urlString) else { return }
         
@@ -43,13 +45,40 @@ class BurgerNetWork {
                 return
             }
             do {
-                let products = try JSONDecoder().decode([Element].self, from: data)
+                let products = try JSONDecoder().decode([BurgerModel].self, from: data)
                 completion(.success(products))
             } catch {
                 completion(.failure(DataError.message(error)))
             }
         }.resume()
           
+    }
+    
+    func fetchAllChinaFood() async throws -> [ChinafoodElement] {
+        
+        guard let url = URL(string: urlChinaFood) else { throw DataError.invalidData }
+        
+        
+        let headers = [
+            "X-rapidapi-Key": "9dedb7d073msh89ba359570b9d54p18e087jsncf0c1ef58dbd",
+            "X-rapidapi-Host": "chinese-food-db.p.rapidapi.com"
+        ]
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "GET"
+        request.allHTTPHeaderFields = headers
+        
+        let (data, response) = try await URLSession.shared.data(for: request)
+        
+        guard let httpResponse = response as? HTTPURLResponse,
+              httpResponse.statusCode == 200 else {
+            throw DataError.ivalidResponse
+        }
+        guard let decoder = try? JSONDecoder().decode([ChinafoodElement].self, from: data) else {
+            throw DataError.invalidData
+        }
+        
+        return decoder
     }
 }
 

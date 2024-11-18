@@ -10,7 +10,7 @@ import SDWebImageSwiftUI
 
 struct BurgerIngredients: View {
     
-    let ingriedient: Element?
+    let ingriedient: BurgerModel?
     var body: some View {
         
         VStack {
@@ -28,6 +28,6 @@ struct BurgerIngredients: View {
 
 struct BurgerIngredients_Previews: PreviewProvider {
     static var previews: some View {
-        BurgerIngredients(ingriedient: Element(id: 4, name: "burger", images: [], desc: "dsdds", ingredients: [], price: 24, veg: true))
+        BurgerIngredients(ingriedient: BurgerModel(id: 4, name: "burger", images: [], desc: "dsdds", ingredients: [], price: 24, veg: true))
     }
 }

@@ -6,20 +6,27 @@
 //
 
 import UIKit
+import FirebaseAuth
+import FirebaseFirestore
 import SwiftUI
+
 @available(iOS 16.0, *)
-class BurgerViewController: BaseListController, UICollectionViewDelegateFlowLayout {
+class BurgerViewController: BaseListController ,UICollectionViewDelegateFlowLayout {
     
-    private var product: [Element] = []
-    private var ingrys: Ingredient?
+    private var product: [BurgerModel] = []
+    let header = "Header"
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
         fetchAllBurgers()
-//        setupGradienLayer()
     }
+
     
+    deinit {
+        
+    }
+    //MARK: Net Work: fetch all
     private func fetchAllBurgers() {
         
         BurgerNetWork.shared.fetchData { results in
@@ -35,35 +42,19 @@ class BurgerViewController: BaseListController, UICollectionViewDelegateFlowLayo
         }
     }
     
+    //MARK: Setup UI
     private func setupUI() {
-        collectionView.backgroundColor = UIColor(patternImage: UIImage(named: "1111") ?? UIImage())
-//        collectionView.backgroundColor = UIColor(white: 0.9, alpha: 0.04)
+        collectionView.backgroundColor = UIColor(red: 0.10, green: 0.11, blue: 0.12, alpha: 1.00)
         collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "Cell")
-        tabBarController?.tabBar.barTintColor = .black
+        collectionView.register(BurgerPageHeader.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: header)
+        tabBarController?.tabBar.barTintColor = UIColor(red: 0.22, green: 0.21, blue: 0.25, alpha: 1.00)
         
     }
-    
-    private func setupGradienLayer() {
-        
-        let gradient = CAGradientLayer()
-        let color1 = UIColor(named: "Yellow")
-        let color22 = UIColor(named: "Blue")
-        gradient.colors = [color22?.cgColor ?? "", color1?.cgColor ?? ""]
-        gradient.locations = [0.0, 1.0]
-        gradient.startPoint = CGPoint(x: 0.0, y: 0.0)
-        gradient.endPoint = CGPoint(x: 0.0, y: 1.0)
-        gradient.frame = view.frame
-        self.view.layer.insertSublayer(gradient, at: 0)
-        
-    }
-    
-    deinit {
-        print("BurgerViewController->>>>>>>> de inito la camedia")
-    }
-    
+
 }
+//MARK: BurgerViewController Fire Base Controller
 
-
+//MARK: EXTENSION Table View Controller
 @available(iOS 16.0, *)
 extension BurgerViewController {
     
@@ -79,28 +70,63 @@ extension BurgerViewController {
         return .init(width: view.frame.width, height: 280)
     }
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        .init(top: 10, left: 0, bottom: 10, right: 0)
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout,
+                        insetForSectionAt section: Int) -> UIEdgeInsets {
+        
+        .init(top: 10, left: 10, bottom: 0, right: 10)
     }
     
+    
+    //MARK: Did Select a Product
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let product = product[indexPath.row]
-        let burgerController = UIHostingController(rootView: BurgerDetailsView(productss: product, ingrys: ingrys))
-        navigationController?.pushViewController(burgerController, animated: true)
         
+        let burgerController1 = UIHostingController(rootView: BurgerDetailsView(product: product))
+        
+        burgerController1.modalTransitionStyle = .coverVertical
+        burgerController1.modalPresentationStyle = .fullScreen
+        present(burgerController1, animated: false)
+        
+        }
+
+    // MARK: HEADER
+    override func collectionView(_ collectionView: UICollectionView, 
+                                 viewForSupplementaryElementOfKind kind: String,
+                                 at indexPath: IndexPath) -> UICollectionReusableView {
+        
+        let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind,
+                                                                     withReuseIdentifier: header, for: indexPath)
+        
+        return header
     }
     
-    override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout,
+                        referenceSizeForHeaderInSection section: Int) -> CGSize {
+        
+        .init(width: view.frame.width, height: 80)
+    }
+    
+    
+    //MARK: CELL
+    override func collectionView(_ collectionView: UICollectionView, 
+                                 cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath)
         let product = product[indexPath.row]
         cell.contentConfiguration = UIHostingConfiguration(content: {
-            BurgersCell(product: product)
+            MainBurgerCell(product: product)
         })
+        
         return cell
     }
-}
 
+
+}
+//MARK: DELEGATE
 //MARK: create custom SwiftUI View Controller
+
 @available(iOS 16.0, *)
 struct HomeRepresentable: UIViewControllerRepresentable {
     
@@ -118,3 +144,4 @@ struct HomeRepresentable: UIViewControllerRepresentable {
         }
     }
 }
+

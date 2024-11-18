@@ -20,7 +20,10 @@ class HorizontalController: HorizontalSnappingController, UICollectionViewDelega
         buttonCategoriesSelector()
     }
     
-    func createSelectorViewController(vc: UIViewController, color: UIColor, modalPresent: UIModalPresentationStyle, modalTransions: UIModalTransitionStyle ) {
+    func createSelectorViewController(vc: UIViewController,
+                                      color: UIColor,
+                                      modalPresent: UIModalPresentationStyle,
+                                      modalTransions: UIModalTransitionStyle ) {
 
         let navigatioController = vc
         navigatioController.view.backgroundColor = color
@@ -30,10 +33,14 @@ class HorizontalController: HorizontalSnappingController, UICollectionViewDelega
     }
     
     private func buttonCategoriesSelector() {
-        categoriesStack.cocktailsButton.addTarget(self, action: #selector(handleButtonCocktails), for: .touchUpInside)
-        categoriesStack.pizzaButton.addTarget(self, action: #selector(handleButtonPizza), for: .touchUpInside)
-        categoriesStack.desertButton.addTarget(self, action: #selector(handleButtonDeser), for: .touchUpInside)
-        categoriesStack.saladsButton.addTarget(self, action: #selector(handleButtonSalad), for: .touchUpInside)
+        categoriesStack.cocktailsButton.addTarget(self,
+                                                  action: #selector(handleButtonCocktails), for: .touchUpInside)
+        categoriesStack.pizzaButton.addTarget(self,
+                                              action: #selector(handleButtonPizza), for: .touchUpInside)
+        categoriesStack.desertButton.addTarget(self,
+                                               action: #selector(handleButtonDeser), for: .touchUpInside)
+        categoriesStack.saladsButton.addTarget(self,
+                                               action: #selector(handleButtonSalad), for: .touchUpInside)
     }
     
     @objc private func handleButtonPizza() {
@@ -49,8 +56,12 @@ class HorizontalController: HorizontalSnappingController, UICollectionViewDelega
 //        createSelectorViewController(vc: CockTailseController(), color: .yellow, modalPresent: .pageSheet, modalTransions: .crossDissolve)
     }
     
-    @objc private func handleButtonCocktails() {
-    self.createSelectorViewController(vc: ChinaFoodController(), color: .clear, modalPresent: .pageSheet, modalTransions: .crossDissolve)
+    @objc func handleButtonCocktails() {
+    self.createSelectorViewController(vc: ChinaFoodController(),
+                                      color: .clear,
+                                      modalPresent: .pageSheet,
+                                      modalTransions: .crossDissolve)
+        
         }
 
         private func setupUI() {
@@ -62,7 +73,11 @@ class HorizontalController: HorizontalSnappingController, UICollectionViewDelega
             
             view.addSubview(stackView)
             
-            stackView.anchor(top: view.safeAreaLayoutGuide.topAnchor, leading: view.leadingAnchor, bottom: view.safeAreaLayoutGuide.bottomAnchor, trailing: view.trailingAnchor)
+            stackView.anchor(top: view.safeAreaLayoutGuide.topAnchor,
+                             leading: view.leadingAnchor,
+                             bottom: view.safeAreaLayoutGuide.bottomAnchor,
+                             trailing: view.trailingAnchor)
+            
             stackView.isLayoutMarginsRelativeArrangement = true
             stackView.layoutMargins = .init(top: 0, left: 12, bottom: 0, right: 12)
             
@@ -70,21 +85,21 @@ class HorizontalController: HorizontalSnappingController, UICollectionViewDelega
             
         }
     
-//    func collectionView(_ collectionView: UICollectionView,
-//                        layout collectionViewLayout: UICollectionViewLayout,
-//                        sizeForItemAt indexPath: IndexPath) -> CGSize {
-//        return .init(width: 30, height: 30)
-//    }
-//    
-//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout:
-//                        UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-//        return .init(top: 12, left: 0, bottom: 12, right: 0)
-//    }
-//    
-//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout:
-//                        UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-//        0
-//    }
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout,
+                        sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return .init(width: 30, height: 30)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout:
+                        UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        return .init(top: 12, left: 0, bottom: 12, right: 0)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout:
+                        UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        10
+    }
     
 }
 

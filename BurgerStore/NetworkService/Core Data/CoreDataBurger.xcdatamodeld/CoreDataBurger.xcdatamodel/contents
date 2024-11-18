@@ -1,2 +1,21 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="22522" systemVersion="22G90" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithSwiftData="YES" userDefinedModelVersionIdentifier=""/>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="22522" systemVersion="22G90" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithSwiftData="YES" userDefinedModelVersionIdentifier="">
+    <entity name="CDImage" representedClassName="CDImage" syncable="YES" codeGenerationType="class">
+        <attribute name="lg" optional="YES" attributeType="String"/>
+        <attribute name="sm" optional="YES" attributeType="String"/>
+    </entity>
+    <entity name="CDIngredient" representedClassName="CDIngredient" syncable="YES" codeGenerationType="class">
+        <attribute name="id" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="img" optional="YES" attributeType="URI"/>
+        <attribute name="name" optional="YES" attributeType="String"/>
+    </entity>
+    <entity name="CoreDataBurger" representedClassName="CoreDataBurger" syncable="YES" codeGenerationType="class">
+        <attribute name="desc" optional="YES" attributeType="String"/>
+        <attribute name="id" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="name" optional="YES" attributeType="String"/>
+        <attribute name="price" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="veg" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <relationship name="cdimage" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="CoreDataBurger" inverseName="cdimage" inverseEntity="CoreDataBurger"/>
+        <relationship name="cdingredient" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="CoreDataBurger" inverseName="cdingredient" inverseEntity="CoreDataBurger"/>
+    </entity>
+</model>
