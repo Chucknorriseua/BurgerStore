@@ -13,7 +13,7 @@ struct ShopProductViewCell: View {
     
     @StateObject var viewModel: ShoppViewModel
     @Binding var shopModel: ShopModel
-    
+//    qwq
     
     var body: some View {
         ZStack {
